@@ -7,8 +7,8 @@ const architectures =
   BUILD === 'x86_64' || BUILD === 'aarch64' ? [BUILD] : ['x86_64', 'aarch64']
 
 export const manifest = setupManifest({
-  id: 'hello-world',
-  title: 'Hello World',
+  id: 'bos-startos',
+  title: 'Balance of Satoshis',
   license: 'MIT',
   wrapperRepo: 'https://github.com/Start9Labs/hello-world-wrapper',
   upstreamRepo: 'https://github.com/Start9Labs/hello-world',
@@ -23,8 +23,8 @@ export const manifest = setupManifest({
   },
   volumes: ['main'],
   images: {
-    'hello-world': {
-      source: { dockerTag: 'start9/hello-world' },
+    bos: {
+      source: { dockerBuild: { dockerfile: 'Dockerfile', workdir: './' } },
       arch: architectures,
     } as SDKImageInputSpec,
   },
