@@ -1,5 +1,6 @@
 import { sdk } from './sdk'
 import { uiPort } from './utils'
+import { manifest as lndManifest } from 'lnd-startos/startos/manifest'
 
 export const main = sdk.setupMain(async ({ effects, started }) => {
   /**
@@ -7,7 +8,7 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
    *
    * In this section, we fetch any resources or run any desired preliminary commands.
    */
-  console.info('Starting Hello World!')
+  console.info('Starting Balance of Satoshis...')
 
   /**
    * ======================== Daemons ========================
@@ -19,16 +20,38 @@ export const main = sdk.setupMain(async ({ effects, started }) => {
   return sdk.Daemons.of(effects, started).addDaemon('primary', {
     subcontainer: await sdk.SubContainer.of(
       effects,
-      { imageId: 'hello-world' },
-      sdk.Mounts.of().mountVolume({
-        volumeId: 'main',
-        subpath: null,
-        mountpoint: '/data',
-        readonly: false,
-      }),
-      'hello-world-sub',
+      { imageId: 'balanceofsatoshis' },
+      sdk.Mounts.of()
+        .mountVolume({
+          volumeId: 'main',
+          subpath: null,
+          mountpoint: '/root',
+          readonly: false,
+        })
+        .mountDependency<typeof lndManifest>({
+          dependencyId: 'lnd',
+          volumeId: 'main',
+          subpath: null,
+          mountpoint: '/mnt/lnd',
+          readonly: true,
+        }),
+      'balanceofsatoshis',
     ),
-    exec: { command: ['hello-world'] },
+    exec: {
+      command: [
+        'while',
+        'true;',
+        'do',
+        'bos',
+        'peers;',
+        'sleep',
+        '20000;',
+        'done',
+      ],
+      env: {
+        BOS_DEFAULT_SAVED_NODE: 'embassy',
+      },
+    },
     ready: {
       display: 'Web Interface',
       fn: () =>

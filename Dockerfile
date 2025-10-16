@@ -10,5 +10,3 @@ ENV BOS_DEFAULT_SAVED_NODE=embassy
 RUN npm i -g balanceofsatoshis@18.2.9
 
 WORKDIR /balanceofsatoshis/
-
-ADD credentials.json /credentials.json

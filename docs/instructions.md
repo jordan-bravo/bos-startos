@@ -1,20 +1,19 @@
-# Instructions for Hello World on StartOS
+# Welcome to Balance of Satoshis
 
-This `/docs` folder is for service-specific documentation on StartOS.  
-Keep it minimal - usually just installation or usage instructions and a reference to the upstream project.
+### This is a tool for working with the balance of your satoshis on LND
 
-## What to include
+**Balance of Satoshis is command-line only service; an SSH Key is required to use this service.**
 
-- Minimal instructions for using the service on StartOS
-- A link to upstream project documentation
-- (Optional) Screenshots or diagrams
-- (Optional) Extra notes such as backups, migrations, or FAQs
+## Setup
 
-## Suggested structure
+Please note: for EOS v0.3.1 and above the default ssh user has changed from "root" to "start9", you will need to add `sudo` to the beginning of each command below.
 
-```
-docs/
-├─ README.md           ← minimal StartOS-specific how-to
-├─ assets/ (optional)  ← images, screenshots, diagrams
-└─ notes.md (optional) ← advanced usage or developer notes
-```
+> 1. SSH into this Embassy (add a new SSH Key if needed)
+>
+> 2. Run the following command to enter the `balanceofsatoshis.embassy` container:
+>
+>    `sudo podman exec -it balanceofsatoshis.embassy /bin/bash`
+
+**You should now be able to run Balance of Satoshis commands.**
+
+## Run the command `bos help` for more information.

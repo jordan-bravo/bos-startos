@@ -7,23 +7,24 @@ const architectures =
   BUILD === 'x86_64' || BUILD === 'aarch64' ? [BUILD] : ['x86_64', 'aarch64']
 
 export const manifest = setupManifest({
-  id: 'bos-startos',
+  id: 'balanceofsatoshis',
   title: 'Balance of Satoshis',
   license: 'MIT',
-  wrapperRepo: 'https://github.com/Start9Labs/hello-world-wrapper',
-  upstreamRepo: 'https://github.com/Start9Labs/hello-world',
-  supportSite: 'https://docs.start9.com/',
-  marketingSite: 'https://start9.com/',
-  donationUrl: 'https://donate.start9.com/',
+  wrapperRepo: 'https://github.com/jordan-bravo/bos-startos',
+  upstreamRepo: 'https://github.com/alexbosworth/balanceofsatoshis',
+  supportSite: 'https://github.com/alexbosworth/balanceofsatoshis/issues',
+  marketingSite: 'https://github.com/alexbosworth',
+  donationUrl:
+    'https://yalls.org/hashcash/7bff5e4f-4534-4cca-8daa-3d5a3c239919',
   docsUrl:
-    'https://github.com/Start9Labs/hello-world-startos/blob/master/instructions.md',
+    'https://github.com/alexbosworth/balanceofsatoshis/blob/master/README.md',
   description: {
-    short: 'Bare bones example of a StartOS service',
-    long: 'Hello World is a template service that provides examples of basic StartOS features.',
+    short: 'A Tool for working with the balance of your satoshis on LND',
+    long: 'A command line tool for working with the balance of your satoshis on your self-hosted Lightning Network Daemon, using the command line for working with LND balances. You can open balanced channels with other participants, and manually monitor your channel fees and HTLCs',
   },
   volumes: ['main'],
   images: {
-    bos: {
+    balanceofsatoshis: {
       source: { dockerBuild: { dockerfile: 'Dockerfile', workdir: './' } },
       arch: architectures,
     } as SDKImageInputSpec,
@@ -32,12 +33,19 @@ export const manifest = setupManifest({
     arch: architectures,
   },
   alerts: {
-    install: 'Optional alert to display before installing the service',
+    install:
+      'READ CAREFULLY! This is command-line ONLY tool. You will be required to use an SSH Key to gain access to the command line. Please refer to the Using SSH guide (https://start9.com/latest/user-manual/ssh) for setup instructions.',
     update: null,
     uninstall: null,
     restore: null,
     start: null,
     stop: null,
   },
-  dependencies: {},
+  dependencies: {
+    lnd: {
+      description: 'Needed to communicate with the Lightning Network',
+      optional: false,
+      s9pk: 'https://github.com/Start9Labs/lnd-startos/releases/download/v0.19.3-beta.1-beta.0/lnd.s9pk',
+    },
+  },
 })
